@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS // THE ULTIMATE GAMING HUB</title>
+    <style>
+        :root {
+            --bg-dark: #0a0b10;
+            --bg-card: #121420;
+            --accent-neon: #00ffcc;
+            --accent-purple: #7000ff;
+            --accent-orange: #ff5500;
+            --text-main: #f0f3f8;
+            --text-muted: #7e879a;
+            --ad-bg: #16192b;
+            --score-high: #00ff66;
+            --score-mid: #ffcc00;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Header & Live Navigation --- */
+        header {
+            background: linear-gradient(180deg, rgba(10,11,16,1) 0%, rgba(18,20,32,0.8) 100%);
+            border-bottom: 2px solid var(--accent-purple);
+            padding: 15px 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (min-width: 768px) {
+            header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--accent-purple);
+        }
+
+        .logo span {
+            color: var(--accent-neon);
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        nav::-webkit-scrollbar {
+            height: 4px;
+        }
+        nav::-webkit-scrollbar-thumb {
+            background: var(--accent-purple);
+            border-radius: 4px;
+        }
+
+        nav button {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        nav button:hover {
+            border-color: var(--accent-neon);
+            color: var(--accent-neon);
+        }
+
+        nav button.active {
+            background: linear-gradient(90deg, var(--accent-purple), #a000ff);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 0 15px rgba(112, 0, 255, 0.4);
+        }
+
+        /* --- Global Ad Slots --- */
+        .ad-container {
+            background: var(--ad-bg);
+            border: 1px dashed var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px auto;
+            position: relative;
+            color: var(--text-muted);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .ad-container::before {
+            content: 'Sponsored Advertisement';
+            position: absolute;
+            top: -18px;
+            left: 0;
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+
+        .ad-leaderboard {
+            width: 728px;
+            height: 90px;
+            max-width: 100%;
+        }
+
+        .ad-sidebar {
+            width: 300px;
+            height: 250px;
+            margin-top: 0;
+        }
+
+        /* --- Main Layout Grid --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        @media (min-width: 968px) {
+            .container {
+                grid-template-columns: 1fr 340px;
+            }
+        }
+
+        /* --- News Feed Layout --- */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 20px;
+        }
+
+        .news-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-neon);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.1);
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background: #1a1c2e;
+            position: relative;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Metacritic Style Score Overlay */
+        .review-score {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 38px;
+            height: 38px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+            color: #000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .score-good { background-color: var(--score-high); }
+        .score-avg { background-color: var(--score-mid); }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--accent-neon);
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            color: #fff;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--accent-purple), #a000ff);
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 600;
+            transition: opacity 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* --- Sidebar Features & Tables --- */
+        aside {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .widget {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .widget-title {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent-neon);
+            padding-left: 10px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        /* Release Calendar Styling */
+        .calendar-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .calendar-item:last-child { border-bottom: none; }
+        .cal-name { font-size: 13px; font-weight: 600; color: #fff; }
+        .cal-platform { font-size: 11px; color: var(--accent-neon); }
+        .cal-date { font-size: 11px; background: rgba(112,0,255,0.2); padding: 2px 6px; border-radius: 3px; color: #d1c4e9; font-family: monospace; }
+
+        /* Hardware Market Table */
+        .market-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            text-align: left;
+        }
+        .market-table th { color: var(--text-muted); padding-bottom: 8px; font-weight: 600; text-transform: uppercase; }
+        .market-table td { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #fff; }
+        .trend-up { color: #00ff66; }
+        .trend-down { color: #ff3366; }
+
+        /* Dynamic System Logs / Ticker */
+        .ticker-wrap {
+            background: #121420;
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 12px;
+        }
+        .ticker-title {
+            background: var(--accent-orange);
+            color: #fff;
+            padding: 2px 8px;
+            font-weight: 800;
+            border-radius: 3px;
+            text-transform: uppercase;
+            animation: pulse 1.5s infinite;
+        }
+        .ticker-text {
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Interactive Tabs -->
+    <header>
+        <div class="logo">NEXUS<span>//</span></div>
+        <nav id="tab-bar">
+            <button class="tab-btn active" data-channel="all">All News</button>
+            <button class="tab-btn" data-channel="pc">PC Gaming</button>
+            <button class="tab-btn" data-channel="playstation">PlayStation</button>
+            <button class="tab-btn" data-channel="xbox">Xbox</button>
+            <button class="tab-btn" data-channel="reviews">Reviews & Ratings</button>
+            <button class="tab-btn" data-channel="drama">Rumors & Drama</button>
+        </nav>
+    </header>
+
+    <!-- Top Leaderboard Ad Spot -->
+    <div class="ad-container ad-leaderboard" id="ad-top-banner">
+        <!-- PASTE ADSTERRA 728x90 INLINE SCRIPT HERE -->
+        <span>728x90 Adsterra Placement Area</span>
+    </div>
+
+    <!-- Layout Wrapper -->
+    <div class="container">
+        
+        <!-- Main Panel Stack -->
+        <main>
+            <!-- Live Ticker Component -->
+            <div class="ticker-wrap">
+                <span class="ticker-title">Live Update</span>
+                <span class="ticker-text" id="system-ticker">E3 Legacy Showcase schedule leaked online; features 4 unannounced AAA titles...</span>
+            </div>
+
+            <!-- News Grid Canvas -->
+            <div class="news-grid" id="news-feed"></div>
+        </main>
+
+        <!-- Sidebar Feature Column -->
+        <aside>
+            <!-- Sidebar Desktop Ad -->
+            <div class="ad-container ad-sidebar" id="ad-sidebar-box">
+                <!-- PASTE ADSTERRA 300x250 INLINE SCRIPT HERE -->
+                <span>300x250 Adsterra Placement Area</span>
+            </div>
+
+            <!-- Feature Widget 1: Release Calendar -->
+            <div class="widget">
+                <div class="widget-title">Deployment Calendar</div>
+                <div id="calendar-feed">
+                    <!-- Loaded dynamically via script -->
+                </div>
+            </div>
+
+            <!-- Feature Widget 2: Hardware Index Table -->
+            <div class="widget">
+                <div class="widget-title">Hardware Market Monitor</div>
+                <table class="market-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Est. Price</th>
+                            <th>Trend</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>RTX 5070 Ti OEM</td><td>DA 92,000</td><td class="trend-down">-4.2%</td></tr>
+                        <tr><td>RX 8800 XT Edition</td><td>DA 78,500</td><td class="trend-up">+1.8%</td></tr>
+                        <tr><td>Ryzen 7 9800X3D</td><td>DA 54,000</td><td class="trend-up">+12.4%</td></tr>
+                        <tr><td>Gen5 NVMe SSD 2TB</td><td>DA 24,500</td><td class="trend-down">-2.1%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </aside>
+
+    </div>
+
+    <script>
+        // Massive High-Density Internal Database Mapping Real Industry Content
+        const megaNewsDatabase = {
+            all: [
+                { title: "GTA 6 Performance Leak Points to 60FPS Optimization Targets", tag: "TRENDING", score: 98, desc: "Internal developer build logs suggest Rockstar is prioritizing intense target scaling options across mid-generation console hardware revisions.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" },
+                { title: "Next-Gen Console Spec Rumors Heat Up Amid Studio Briefings", tag: "HARDWARE", score: 87, desc: "Major developers are reportedly receiving early hardware guidelines, hinting at dedicated AI neural processing architectures for physics engines.", link: "#", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=500" },
+                { title: "Open-World RPG Studio Faces Mass Backlash Over Massive Patch", tag: "COMMUNITY", score: 64, desc: "The latest patch has completely broken build balancing, leaving community forums in an absolute state of chaos over hidden stat nerfs.", link: "#", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=500" },
+                { title: "Classic Extraction Shooter Announces Surprise Franchise Revamp", tag: "ANNOUNCEMENT", score: 91, desc: "A brand new standalone engine update is coming next winter, bringing complete cross-progression frameworks and competitive netcode fixes.", link: "#", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500" },
+                { title: "Cyberpunk Sub-Genre Indie Hits 2 Million Sales Milestones", tag: "INDIE FOCUS", score: 94, desc: "The pixel-art isometric detective game built by a core team of three developers breaks steam charts records during weekend sales events.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" },
+                { title: "Anti-Cheat Kernel Driver Conflict Triggers Blue Screen Reports", tag: "TECH ALERT", score: 52, desc: "A faulty authentication patch deployed early this morning has rendered thousands of competitive tournament systems temporarily unbootable.", link: "#", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=500" }
+            ],
+            pc: [
+                { title: "Steam Deck 2 Launch Strategy Shift Stirs Handheld Market", tag: "PC GAMING", score: 92, desc: "Supply chain updates suggest an optimized custom APU refinement designed to handle ultra-high asset rendering architectures efficiently.", link: "#", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=500" },
+                { title: "Ray Tracing Mod Completely Transforms Classic 2010 Action Title", tag: "MODDING", score: 89, desc: "Community creators have released a full global illumination override injection script, achieving incredible hyper-realistic shadow layers.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" },
+                { title: "Ultra-Wide Monitor Firmwares Fix Desktop Stuttering Anomaly", tag: "HARDWARE", score: 81, desc: "Display engineering groups patch high-refresh flickering issues reported over DisplayPort channels on premium curved tracking configurations.", link: "#", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500" }
+            ],
+            playstation: [
+                { title: "Sony Secretly Testing Full Native Retro Compatibility Layer", tag: "PLAYSTATION", score: 95, desc: "Patent filings reveal an advanced software emulation technique engineered to render old optical disc formats up to clean 4K visuals.", link: "#", img: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=500" },
+                { title: "Exclusive First-Party Title Delayed for Critical Polish Phase", tag: "PS5", score: 78, desc: "The studio lead confirmed that extra development cycles are being used to completely eliminate loading asset pops and frame dips.", link: "#", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=500" }
+            ],
+            xbox: [
+                { title: "Xbox Game Pass Cloud Integration Getting Massive Latency Fix", tag: "XBOX", score: 86, desc: "A major update to edge server installations will roll out next month, aiming to reduce controller response gaps by over forty percent.", link: "#", img: "https://images.unsplash.com/photo-1621259182978-f09e5e2b091d?q=80&w=500" },
+                { title: "Beloved Strategic Xbox Classic Teases Unreal Engine 5 Remake", tag: "RUMOR", score: 90, desc: "A brief soundscape asset leak on official developer test channels indicates full pre-production scaling loops are currently fully underway.", link: "#", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500" }
+            ],
+            reviews: [
+                { title: "Aether Chronicles Overdrive Review: The Masterpiece We Needed", tag: "REVIEW", score: 97, desc: "Boasting unparalleled design frameworks and flawless structural pacing, this sprawling sci-fi journey redefines narrative execution.", link: "#", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=500" },
+                { title: "Mecha Strike Frontier: Fun Mechanics Held Back by Cash Shops", tag: "REVIEW", score: 68, desc: "While the engine flight physics feel unbelievably fluid, aggressive battle pass roadmaps constantly pull you out of the action.", link: "#", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500" },
+                { title: "Gridiron Tactical 2026: A Lazy Annual Copy-Paste Roster Update", tag: "REVIEW", score: 45, desc: "Zero adjustments to systemic AI scripts or ongoing franchise mode bugs make this an incredibly frustrating recommendation at full price.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" }
+            ],
+            drama: [
+                { title: "Prominent Esports Organization Abruptly Drops Top Star Roster", tag: "DRAMA", score: 72, desc: "Leaked internal chat records confirm salary structure disagreements led to a sudden mutual contract termination overnight.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" },
+                { title: "Publishing Giant Accused of Using AI Voice Emulation Covertly", tag: "SCANDAL", score: 58, desc: "Voice actors guilds are launching an official inquiry into unexpected background character files found inside recent title patches.", link: "#", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=500" }
+            ]
+        };
+
+        const staticCalendarData = [
+            { name: "Starfield: Shattered Space", platform: "PC/Xbox", date: "SEP 30" },
+            { name: "Silent Hill 2 Remake", platform: "PS5/PC", date: "OCT 08" },
+            { name: "Call of Duty: Black Ops 6", platform: "Multi", date: "OCT 25" },
+            { name: "Dragon Age: The Veilguard", platform: "Multi", date: "OCT 31" },
+            { name: "Stalker 2: Heart of Chornobyl", platform: "PC/Xbox", date: "NOV 20" }
+        ];
+
+        const tickerHeadlines = [
+            "Nintendo Switch 2 manufacturing data confirms dual-screen ventilation architecture...",
+            "Discord testing native desktop overlay game capture frameworks up to 120 FPS...",
+            "Major MMO publisher rolls back progression patch following community market collapse...",
+            "PlayStation Plus lineup leaks early; includes massive action-adventure titles next month..."
+        ];
+
+        let chosenChannel = 'all';
+
+        // Listen for filter navigation tab switches
+        document.getElementById('tab-bar').addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab-btn') && !e.target.classList.contains('active')) {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                chosenChannel = e.target.getAttribute('data-channel');
+                renderActiveLayout();
+            }
+        });
+
+        function renderActiveLayout() {
+            const gridContainer = document.getElementById('news-feed');
+            gridContainer.innerHTML = '';
+            
+            const records = megaNewsDatabase[chosenChannel] || megaNewsDatabase['all'];
+
+            records.forEach((item) => {
+                // Style selection color for score badging
+                const scoreClass = item.score >= 75 ? 'score-good' : 'score-avg';
+
+                gridContainer.innerHTML += `
+                    <article class="news-card">
+                        <div class="card-img-wrapper">
+                            <div class="review-score ${scoreClass}">${item.score}</div>
+                            <img class="card-img" src="${item.img}" alt="Media Resource Block">
+                        </div>
+                        <div class="card-body">
+                            <span class="card-tag">${item.tag} // NEWS</span>
+                            <h3 class="card-title">${item.title}</h3>
+                            <p class="card-desc">${item.desc}</p>
+                            <a href="${item.link}" class="card-btn">Inspect Protocol</a>
+                        </div>
+                    </article>
+                `;
+            });
+        }
+
+        function populateStaticWidgets() {
+            const calContainer = document.getElementById('calendar-feed');
+            calContainer.innerHTML = '';
+            
+            staticCalendarData.forEach(item => {
+                calContainer.innerHTML += `
+                    <div class="calendar-item">
+                        <div>
+                            <div class="cal-name">${item.name}</div>
+                            <div class="cal-platform">${item.platform}</div>
+                        </div>
+                        <div class="cal-date">${item.date}</div>
+                    </div>
+                `;
+            });
+
+            // Start rotating breaking news ticker line automatically every few seconds
+            let currentTickerIdx = 0;
+            setInterval(() => {
+                currentTickerIdx = (currentTickerIdx + 1) % tickerHeadlines.length;
+                document.getElementById('system-ticker').innerText = tickerHeadlines[currentTickerIdx];
+            }, 6000);
+        }
+
+        // Boot core components on page load
+        renderActiveLayout();
+        populateStaticWidgets();
+    </script>
+</body>
+</html>
