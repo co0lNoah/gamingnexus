@@ -3,552 +3,1165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUS || The Gaming Hub</title>
+    <title>NEXUS // Gaming Intelligence Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0a0b10;
-            --bg-card: #121420;
-            --accent-neon: #00ffcc;
-            --accent-purple: #7000ff;
-            --accent-orange: #ff5500;
-            --text-main: #f0f3f8;
-            --text-muted: #7e879a;
-            --ad-bg: #16192b;
-            --score-high: #00ff66;
-            --score-mid: #ffcc00;
+            --void:       #07080f;
+            --surface-1:  #0b0d1a;
+            --surface-2:  #0f1223;
+            --surface-3:  #161929;
+            --border:     rgba(255,255,255,0.058);
+            --violet:     #7c3aed;
+            --violet-dim: rgba(124,58,237,0.13);
+            --violet-glow:rgba(124,58,237,0.25);
+            --sky:        #0ea5e9;
+            --sky-dim:    rgba(14,165,233,0.12);
+            --ember:      #f97316;
+            --jade:       #22c55e;
+            --rose:       #f43f5e;
+            --text-1:     #e8edf5;
+            --text-2:     #8892a4;
+            --text-3:     #3d4a5c;
+            --font-d:     'Space Grotesk', sans-serif;
+            --font-b:     'Inter', sans-serif;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            overflow-x: hidden;
+            background: var(--void);
+            color: var(--text-1);
+            font-family: var(--font-b);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- Header & Live Navigation --- */
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; }
+        img { display: block; }
+
+        /* ── HEADER ───────────────────────────────── */
         header {
-            background: linear-gradient(180deg, rgba(10,11,16,1) 0%, rgba(18,20,32,0.8) 100%);
-            border-bottom: 2px solid var(--accent-purple);
-            padding: 15px 5%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+            z-index: 200;
+            background: rgba(7,8,15,0.88);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
         }
 
-        @media (min-width: 768px) {
-            header {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: #fff;
-            text-shadow: 0 0 10px var(--accent-purple);
-        }
-
-        .logo span {
-            color: var(--accent-neon);
-        }
-
-        nav {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-
-        nav::-webkit-scrollbar {
-            height: 4px;
-        }
-        nav::-webkit-scrollbar-thumb {
-            background: var(--accent-purple);
-            border-radius: 4px;
-        }
-
-        nav button {
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            padding: 8px 16px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 4px;
-            text-transform: uppercase;
-            font-size: 13px;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        nav button:hover {
-            border-color: var(--accent-neon);
-            color: var(--accent-neon);
-        }
-
-        nav button.active {
-            background: linear-gradient(90deg, var(--accent-purple), #a000ff);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 0 15px rgba(112, 0, 255, 0.4);
-        }
-
-        /* --- Global Ad Slots --- */
-        .ad-container {
-            background: var(--ad-bg);
-            border: 1px dashed var(--text-muted);
+        .header-row {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 58px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 25px auto;
-            position: relative;
-            color: var(--text-muted);
-            font-size: 11px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .ad-container::before {
-            content: 'Sponsored Advertisement';
-            position: absolute;
-            top: -18px;
-            left: 0;
-            font-size: 9px;
-            color: var(--text-muted);
-        }
-
-        .ad-leaderboard {
-            width: 728px;
-            height: 90px;
-            max-width: 100%;
-        }
-
-        .ad-sidebar {
-            width: 300px;
-            height: 250px;
-            margin-top: 0;
-        }
-
-        /* --- Main Layout Grid --- */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px 40px 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-        }
-
-        @media (min-width: 968px) {
-            .container {
-                grid-template-columns: 1fr 340px;
-            }
-        }
-
-        /* --- News Feed Layout --- */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
             gap: 20px;
         }
 
-        .news-card {
-            background: var(--bg-card);
+        .logo {
+            font-family: var(--font-d);
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--text-1);
+            flex-shrink: 0;
+        }
+        .logo em { font-style: normal; color: var(--violet); }
+
+        /* Search */
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            max-width: 340px;
+        }
+        .search-wrap svg {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-3);
+            pointer-events: none;
+        }
+        #search-input {
+            width: 100%;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 8px 12px 8px 34px;
+            color: var(--text-1);
+            font-family: var(--font-b);
+            font-size: 13px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        #search-input::placeholder { color: var(--text-3); }
+        #search-input:focus {
+            border-color: rgba(124,58,237,0.5);
+            box-shadow: 0 0 0 3px var(--violet-dim);
+        }
+
+        /* Signal indicator — the signature element */
+        .signal-group {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .signal {
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+            height: 18px;
+        }
+        .signal-bar {
+            width: 4px;
+            border-radius: 2px;
+            background: var(--violet);
+        }
+        .signal-bar:nth-child(1) { height: 5px;  animation: sig .9s  ease-in-out infinite; }
+        .signal-bar:nth-child(2) { height: 9px;  animation: sig .9s  .15s ease-in-out infinite; }
+        .signal-bar:nth-child(3) { height: 13px; animation: sig .9s  .3s  ease-in-out infinite; }
+        .signal-bar:nth-child(4) { height: 18px; animation: sig .9s  .45s ease-in-out infinite; }
+        @keyframes sig {
+            0%,100% { opacity: 1; }
+            50%      { opacity: .2; }
+        }
+        .signal-label {
+            font-family: var(--font-d);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--violet);
+        }
+
+        /* ── TAB NAV ──────────────────────────────── */
+        .nav-strip {
+            background: var(--surface-1);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .nav-inner::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            padding: 13px 18px;
+            font-family: var(--font-d);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .6px;
+            color: var(--text-2);
+            white-space: nowrap;
+            transition: color .2s, border-color .2s;
+        }
+        .tab-btn:hover  { color: var(--text-1); }
+        .tab-btn.active { color: var(--text-1); border-bottom-color: var(--violet); }
+
+        /* ── TICKER ──────────────────────────────── */
+        .ticker-bar {
+            background: var(--surface-1);
+            border-bottom: 1px solid var(--border);
+        }
+        .ticker-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 7px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 12px;
+        }
+        .ticker-pill {
+            background: var(--ember);
+            color: #fff;
+            font-family: var(--font-d);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            padding: 3px 9px;
+            border-radius: 3px;
+            flex-shrink: 0;
+            animation: pulse-bg 2s ease-in-out infinite;
+        }
+        @keyframes pulse-bg { 0%,100% { opacity:1 } 50% { opacity:.65 } }
+        .ticker-text { color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ticker-text b { color: var(--text-1); font-weight: 600; }
+
+        /* ── AD SLOTS ─────────────────────────────── */
+        .ad-row { display: flex; justify-content: center; padding: 18px 24px; }
+
+        /* ── PAGE LAYOUT ─────────────────────────── */
+        .page {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+        @media (min-width: 1060px) {
+            .page { grid-template-columns: 1fr 336px; }
+        }
+
+        /* ── ERROR BANNER ────────────────────────── */
+        .error-banner {
+            background: rgba(244,63,94,.1);
+            border: 1px solid rgba(244,63,94,.3);
             border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 12px;
+            color: #fda4af;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        /* ── HERO ─────────────────────────────────── */
+        .hero-wrap { margin-bottom: 24px; }
+
+        .hero-card {
+            position: relative;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            height: 380px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+        .hero-card:hover .hero-img { transform: scale(1.04); }
+
+        .hero-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .6s ease;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(7,8,15,.98) 0%, rgba(7,8,15,.55) 55%, rgba(7,8,15,.1) 100%);
+        }
+        .hero-body {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 28px 32px;
+        }
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .featured-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(124,58,237,.2);
+            border: 1px solid rgba(124,58,237,.4);
+            padding: 4px 11px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: #c4b5fd;
+            text-transform: uppercase;
+        }
+        .live-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #c4b5fd;
+            animation: ldot 1.6s ease-in-out infinite;
+        }
+        @keyframes ldot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.6)} }
+        .hero-sub { font-size: 11px; color: var(--text-2); }
+        .hero-title {
+            font-family: var(--font-d);
+            font-size: clamp(17px, 2.2vw, 26px);
+            font-weight: 800;
+            line-height: 1.28;
+            color: var(--text-1);
+            margin-bottom: 14px;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-2);
+        }
+        .hero-stat { display: flex; align-items: center; gap: 5px; }
+
+        /* ── SECTION HEADER ──────────────────────── */
+        .section-hd {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-family: var(--font-d);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-2);
+        }
+        .section-title em { font-style: normal; color: var(--violet); }
+        .post-count {
+            font-size: 11px;
+            color: var(--text-3);
+        }
+
+        /* ── CARD GRID ───────────────────────────── */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 16px;
+        }
+
+        /* ── NEWS CARD ───────────────────────────── */
+        .news-card {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            position: relative;
+            cursor: pointer;
+            transition: transform .22s, border-color .22s, box-shadow .22s;
         }
-
         .news-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-neon);
-            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.1);
+            transform: translateY(-4px);
+            border-color: rgba(124,58,237,.35);
+            box-shadow: 0 10px 36px rgba(0,0,0,.32), 0 0 0 1px rgba(124,58,237,.1);
         }
+        .news-card:hover .card-img { transform: scale(1.05); }
 
-        .card-img-wrapper {
-            width: 100%;
-            height: 180px;
+        .card-img-wrap {
+            height: 162px;
             overflow: hidden;
-            background: #1a1c2e;
+            background: var(--surface-3);
             position: relative;
+            flex-shrink: 0;
         }
-
         .card-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform .42s ease;
         }
-
-        /* Metacritic Style Score Overlay */
-        .review-score {
+        .score-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 38px;
-            height: 38px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            top: 10px; right: 10px;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: var(--font-d);
+            font-size: 13px;
             font-weight: 800;
-            font-size: 15px;
             color: #000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            letter-spacing: .5px;
         }
-        .score-good { background-color: var(--score-high); }
-        .score-avg { background-color: var(--score-mid); }
+        .b-hot  { background: var(--jade); }
+        .b-warm { background: #facc15; }
+        .b-cool { background: var(--text-2); }
 
         .card-body {
-            padding: 20px;
+            padding: 15px 16px 14px;
             display: flex;
             flex-direction: column;
-            flex-grow: 1;
+            flex: 1;
         }
-
         .card-tag {
-            font-size: 11px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            color: var(--accent-neon);
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
+            color: var(--sky);
+            margin-bottom: 7px;
         }
-
         .card-title {
-            font-size: 16px;
+            font-family: var(--font-d);
+            font-size: 13.5px;
             font-weight: 700;
-            margin-bottom: 10px;
-            line-height: 1.4;
-            color: #fff;
-        }
-
-        .card-desc {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-bottom: 20px;
-            flex-grow: 1;
+            line-height: 1.45;
+            color: var(--text-1);
+            flex: 1;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            margin-bottom: 10px;
         }
 
-        .card-btn {
-            display: inline-block;
-            background: linear-gradient(90deg, var(--accent-purple), #a000ff);
-            color: white;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            font-size: 13px;
-            text-align: center;
-            font-weight: 600;
-            transition: opacity 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        /* Community heat bar */
+        .heat-bar {
+            height: 2px;
+            background: var(--surface-3);
+            border-radius: 1px;
+            overflow: hidden;
+            margin-bottom: 10px;
         }
+        .heat-fill { height: 100%; border-radius: 1px; transition: width .5s ease; }
 
-        .card-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* --- Sidebar Features & Tables --- */
-        aside {
+        .card-footer {
             display: flex;
-            flex-direction: column;
-            gap: 25px;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
         }
+        .card-stats {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+            color: var(--text-3);
+        }
+        .bm-btn {
+            background: none;
+            border: none;
+            font-size: 15px;
+            color: var(--text-3);
+            padding: 2px 5px;
+            border-radius: 4px;
+            transition: color .15s, background .15s;
+            line-height: 1;
+        }
+        .bm-btn:hover    { color: var(--violet); background: var(--violet-dim); }
+        .bm-btn.saved    { color: var(--violet); }
+
+        /* ── SKELETON LOADER ─────────────────────── */
+        @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skel {
+            background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 4px;
+        }
+        .skel-card {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .skel-img  { height: 162px; }
+        .skel-body { padding: 15px 16px; display: flex; flex-direction: column; gap: 9px; }
+        .skel-ln   { height: 11px; }
+        .skel-hero { height: 380px; border-radius: 12px; }
+
+        /* ── EMPTY STATE ─────────────────────────── */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 48px 0;
+            color: var(--text-3);
+        }
+        .empty-state .es-icon { font-size: 36px; margin-bottom: 12px; }
+        .empty-state .es-title { font-family: var(--font-d); font-size: 15px; font-weight: 700; color: var(--text-2); margin-bottom: 6px; }
+        .empty-state .es-sub   { font-size: 13px; }
+
+        /* ── SIDEBAR ─────────────────────────────── */
+        aside { display: flex; flex-direction: column; gap: 20px; }
 
         .widget {
-            background: var(--bg-card);
-            border-radius: 8px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
         }
-
-        .widget-title {
-            font-size: 14px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            border-left: 3px solid var(--accent-neon);
-            padding-left: 10px;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        /* Release Calendar Styling */
-        .calendar-item {
+        .widget-hd {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            gap: 8px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
         }
-        .calendar-item:last-child { border-bottom: none; }
-        .cal-name { font-size: 13px; font-weight: 600; color: #fff; }
-        .cal-platform { font-size: 11px; color: var(--accent-neon); }
-        .cal-date { font-size: 11px; background: rgba(112,0,255,0.2); padding: 2px 6px; border-radius: 3px; color: #d1c4e9; font-family: monospace; }
+        .wdot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--violet);
+            flex-shrink: 0;
+        }
+        .widget-title {
+            font-family: var(--font-d);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-1);
+        }
 
-        /* Hardware Market Table */
-        .market-table {
-            width: 100%;
-            border-collapse: collapse;
+        /* ── AI ADVISOR ──────────────────────────── */
+        .ai-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .ai-chip {
+            background: var(--surface-3);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 11px;
+            font-size: 11px;
+            color: var(--text-2);
+            transition: border-color .15s, color .15s;
+        }
+        .ai-chip:hover { border-color: rgba(124,58,237,.5); color: var(--text-1); }
+
+        .ai-log {
+            max-height: 210px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--surface-3) transparent;
+        }
+        .ai-msg {
             font-size: 12px;
+            line-height: 1.55;
+            padding: 9px 11px;
+            border-radius: 8px;
+        }
+        .ai-msg.u {
+            background: var(--violet-dim);
+            border: 1px solid rgba(124,58,237,.2);
+            color: var(--text-1);
+            align-self: flex-end;
+            max-width: 92%;
+            text-align: right;
+        }
+        .ai-msg.a {
+            background: var(--surface-3);
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            align-self: flex-start;
+            max-width: 96%;
+        }
+        .typing-dots { display: flex; gap: 4px; align-items: center; }
+        .td {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: var(--violet);
+            animation: tdot 1.1s ease-in-out infinite;
+        }
+        .td:nth-child(2) { animation-delay: .18s; }
+        .td:nth-child(3) { animation-delay: .36s; }
+        @keyframes tdot { 0%,100%{transform:translateY(0);opacity:.4} 50%{transform:translateY(-4px);opacity:1} }
+
+        .ai-input-row { display: flex; gap: 8px; }
+        #ai-input {
+            flex: 1;
+            background: var(--surface-3);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 8px 10px;
+            color: var(--text-1);
+            font-family: var(--font-b);
+            font-size: 12px;
+            outline: none;
+            transition: border-color .2s;
+        }
+        #ai-input::placeholder { color: var(--text-3); }
+        #ai-input:focus { border-color: rgba(124,58,237,.5); }
+        #ai-send {
+            background: var(--violet);
+            border: none;
+            border-radius: 7px;
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity .15s, background .15s;
+        }
+        #ai-send:hover    { background: #6d28d9; }
+        #ai-send:disabled { opacity: .4; cursor: not-allowed; }
+
+        /* ── CALENDAR ────────────────────────────── */
+        .cal-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .cal-item:last-child { border-bottom: none; }
+        .cal-badge {
+            background: var(--violet-dim);
+            border: 1px solid rgba(124,58,237,.2);
+            border-radius: 7px;
+            padding: 5px 8px;
+            text-align: center;
+            flex-shrink: 0;
+            min-width: 46px;
+        }
+        .cal-mo { font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--violet); }
+        .cal-dy { font-family: var(--font-d); font-size: 17px; font-weight: 800; color: var(--text-1); line-height: 1.2; }
+        .cal-name { font-size: 12px; font-weight: 600; color: var(--text-1); margin-bottom: 2px; }
+        .cal-plat { font-size: 10px; color: var(--sky); letter-spacing: .5px; }
+
+        /* ── MARKET TABLE ────────────────────────── */
+        .market-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .market-table th {
+            color: var(--text-3);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            font-size: 9px;
+            padding-bottom: 10px;
             text-align: left;
         }
-        .market-table th { color: var(--text-muted); padding-bottom: 8px; font-weight: 600; text-transform: uppercase; }
-        .market-table td { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #fff; }
-        .trend-up { color: #00ff66; }
-        .trend-down { color: #ff3366; }
+        .market-table td { padding: 9px 0; border-bottom: 1px solid var(--border); color: var(--text-1); vertical-align: middle; }
+        .market-table tr:last-child td { border-bottom: none; }
+        .market-table td:nth-child(2) { color: var(--text-2); font-size: 11px; }
+        .market-table td:last-child { text-align: right; font-weight: 600; }
+        .t-up   { color: var(--jade); }
+        .t-down { color: var(--rose); }
 
-        /* Dynamic System Logs / Ticker */
-        .ticker-wrap {
-            background: #121420;
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 12px;
-        }
-        .ticker-title {
-            background: var(--accent-orange);
-            color: #fff;
-            padding: 2px 8px;
-            font-weight: 800;
-            border-radius: 3px;
-            text-transform: uppercase;
-            animation: pulse 1.5s infinite;
-        }
-        .ticker-text {
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        /* ── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 600px) {
+            .header-row { padding: 0 16px; }
+            .search-wrap { max-width: none; flex: 1; }
+            .signal-group { display: none; }
+            .hero-card { height: 280px; }
+            .hero-body { padding: 20px; }
+            .page { padding: 16px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header & Interactive Tabs -->
-    <header>
-        <div class="logo">NEXUS<span>//</span></div>
-        <nav id="tab-bar">
-            <button class="tab-btn active" data-channel="all">All News</button>
-            <button class="tab-btn" data-channel="pc">PC Gaming</button>
-            <button class="tab-btn" data-channel="playstation">PlayStation</button>
-            <button class="tab-btn" data-channel="xbox">Xbox</button>
-            <button class="tab-btn" data-channel="reviews">Reviews & Ratings</button>
-            <button class="tab-btn" data-channel="drama">Rumors & Drama</button>
-        </nav>
-    </header>
-
-    <!-- Top Leaderboard Ad Spot -->
-<div id="frame" style="width: 728px;margin: auto;z-index: 99998;height: auto">
-          <iframe data-aa='2442543' src='//ad.a-ads.com/2442543/?size=728x90'
-                            style='border:0; padding:0; width:728px; height:90px; overflow:hidden;display: block;margin: auto'></iframe>
+<!-- ── HEADER ───────────────────────────────────── -->
+<header>
+    <div class="header-row">
+        <div class="logo">NEXUS<em>//</em></div>
+        <div class="search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="search-input" placeholder="Search gaming news…" autocomplete="off" />
         </div>
-
-    <!-- Layout Wrapper -->
-    <div class="container">
-        
-        <!-- Main Panel Stack -->
-        <main>
-            <!-- Live Ticker Component -->
-            <div class="ticker-wrap">
-                <span class="ticker-title">Live Update</span>
-                <span class="ticker-text" id="system-ticker">E3 Legacy Showcase schedule leaked online; features 4 unannounced AAA titles...</span>
+        <div class="signal-group">
+            <div class="signal">
+                <div class="signal-bar"></div>
+                <div class="signal-bar"></div>
+                <div class="signal-bar"></div>
+                <div class="signal-bar"></div>
             </div>
+            <span class="signal-label">Live</span>
+        </div>
+    </div>
+</header>
 
-            <!-- News Grid Canvas -->
-            <div class="news-grid" id="news-feed"></div>
-        </main>
+<!-- ── TABS ─────────────────────────────────────── -->
+<nav class="nav-strip">
+    <div class="nav-inner" id="tab-bar">
+        <button class="tab-btn active" data-sub="gaming"          data-sort="hot">All News</button>
+        <button class="tab-btn"        data-sub="pcgaming"         data-sort="hot">PC Gaming</button>
+        <button class="tab-btn"        data-sub="PS5"              data-sort="hot">PlayStation</button>
+        <button class="tab-btn"        data-sub="xboxone"          data-sort="hot">Xbox</button>
+        <button class="tab-btn"        data-sub="games"            data-sort="top">Reviews</button>
+        <button class="tab-btn"        data-sub="gamingdramatics"  data-sort="hot">Drama</button>
+        <button class="tab-btn"        data-sub="__bookmarks__"    data-sort="">★ Saved</button>
+    </div>
+</nav>
 
-        <!-- Sidebar Feature Column -->
-        <aside>
-            <!-- Sidebar Desktop Ad -->
+<!-- ── TICKER ────────────────────────────────────── -->
+<div class="ticker-bar">
+    <div class="ticker-inner">
+        <span class="ticker-pill">BREAKING</span>
+        <span class="ticker-text" id="ticker-text">Loading latest headlines…</span>
+    </div>
+</div>
 
-        <div id="frame" style="width: 300px;margin: auto;z-index: 99998;height: auto">
-          <iframe data-aa='2442542' src='//ad.a-ads.com/2442542/?size=300x250'
-                            style='border:0; padding:0; width:300px; height:250px; overflow:hidden;display: block;margin: auto'></iframe>
+<!-- ── LEADERBOARD AD ──────────────────────────── -->
+<div class="ad-row">
+    <iframe data-aa='2442543' src='//ad.a-ads.com/2442543/?size=728x90'
+        style='border:0;padding:0;width:728px;height:90px;overflow:hidden;display:block;max-width:100%'></iframe>
+</div>
+
+<!-- ── PAGE ──────────────────────────────────────── -->
+<div class="page">
+
+    <!-- MAIN COLUMN -->
+    <main>
+        <div id="error-banner" class="error-banner">
+            ⚠ Could not fetch live data from Reddit. Showing cached content.
+        </div>
+        <div id="hero-wrap" class="hero-wrap"></div>
+
+        <div class="section-hd">
+            <div class="section-title" id="section-title">Latest <em>Drops</em></div>
+            <div class="post-count" id="post-count"></div>
+        </div>
+        <div id="news-grid" class="news-grid"></div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside>
+
+        <!-- 300×250 Ad -->
+        <iframe data-aa='2442542' src='//ad.a-ads.com/2442542/?size=300x250'
+            style='border:0;padding:0;width:300px;height:250px;overflow:hidden;display:block;max-width:100%'></iframe>
+
+        <!-- AI ADVISOR -->
+        <div class="widget">
+            <div class="widget-hd">
+                <div class="wdot" style="background:var(--sky)"></div>
+                <div class="widget-title">AI Game Advisor</div>
+            </div>
+            <div class="ai-chips" id="ai-chips">
+                <button class="ai-chip">What to play next?</button>
+                <button class="ai-chip">Best RPGs 2025?</button>
+                <button class="ai-chip">Underrated gems?</button>
+                <button class="ai-chip">Co-op picks?</button>
+            </div>
+            <div class="ai-log" id="ai-log">
+                <div class="ai-msg a">👾 Ask me anything — recommendations, comparisons, hidden gems. I'm NEXUS AI.</div>
+            </div>
+            <div class="ai-input-row">
+                <input id="ai-input" type="text" placeholder="Ask NEXUS AI…" autocomplete="off" />
+                <button id="ai-send" title="Send">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" fill="white"/>
+                    </svg>
+                </button>
+            </div>
         </div>
 
-            <!-- Feature Widget 1: Release Calendar -->
-            <div class="widget">
-                <div class="widget-title">Deployment Calendar</div>
-                <div id="calendar-feed">
-                    <!-- Loaded dynamically via script -->
+        <!-- RELEASE CALENDAR -->
+        <div class="widget">
+            <div class="widget-hd">
+                <div class="wdot"></div>
+                <div class="widget-title">Release Calendar</div>
+            </div>
+            <div id="cal-feed"></div>
+        </div>
+
+        <!-- HARDWARE MARKET -->
+        <div class="widget">
+            <div class="widget-hd">
+                <div class="wdot" style="background:var(--jade)"></div>
+                <div class="widget-title">Hardware Index</div>
+            </div>
+            <table class="market-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Est. Price</th>
+                        <th>Trend</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>RTX 5070 Ti OEM</td><td>DA 92,000</td><td class="t-down">▼ 4.2%</td></tr>
+                    <tr><td>RX 8800 XT Edition</td><td>DA 78,500</td><td class="t-up">▲ 1.8%</td></tr>
+                    <tr><td>Ryzen 7 9800X3D</td><td>DA 54,000</td><td class="t-up">▲ 12.4%</td></tr>
+                    <tr><td>Gen5 NVMe SSD 2TB</td><td>DA 24,500</td><td class="t-down">▼ 2.1%</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </aside>
+</div>
+
+<script>
+'use strict';
+
+// ── State ─────────────────────────────────────────
+const postCache    = new Map();   // id → post object
+const savedPosts   = new Set();   // saved post ids
+let   activeSub    = 'gaming';
+let   activeSort   = 'hot';
+
+// ── Reddit Fetch ──────────────────────────────────
+async function fetchReddit(sub, sort = 'hot', limit = 14) {
+    const res = await fetch(
+        `https://www.reddit.com/r/${sub}/${sort}.json?limit=${limit}&raw_json=1`,
+        { headers: { Accept: 'application/json' } }
+    );
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    return json.data.children.map(c => c.data);
+}
+
+async function searchReddit(q) {
+    const res = await fetch(
+        `https://www.reddit.com/r/gaming/search.json?q=${encodeURIComponent(q)}&restrict_sr=1&sort=relevance&limit=12&raw_json=1`,
+        { headers: { Accept: 'application/json' } }
+    );
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    return json.data.children.map(c => c.data);
+}
+
+// ── Helpers ───────────────────────────────────────
+const FALLBACK_IMGS = [
+    'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600',
+    'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600',
+    'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600',
+    'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=600',
+    'https://images.unsplash.com/photo-1621259182978-f09e5e2b091d?w=600',
+];
+
+function getImg(post) {
+    const p = post.preview?.images?.[0];
+    if (p?.source?.url) return p.source.url;
+    if (post.thumbnail?.startsWith('http')) return post.thumbnail;
+    return FALLBACK_IMGS[Math.abs(post.title.charCodeAt(0)) % FALLBACK_IMGS.length];
+}
+
+function scoreOf(post) {
+    const s = post.score || 0;
+    if (s > 10000) return { val: 98, cls: 'b-hot' };
+    if (s > 5000)  return { val: Math.min(97, 80 + Math.floor(s / 1000)), cls: 'b-hot' };
+    if (s > 1000)  return { val: 60 + Math.floor((s - 1000) / 200), cls: 'b-warm' };
+    return { val: Math.max(40, Math.floor(s / 25)), cls: 'b-cool' };
+}
+
+function timeAgo(utc) {
+    const d = Date.now() / 1000 - utc;
+    if (d < 3600)  return `${Math.floor(d / 60)}m ago`;
+    if (d < 86400) return `${Math.floor(d / 3600)}h ago`;
+    return `${Math.floor(d / 86400)}d ago`;
+}
+
+function fmt(n) {
+    return n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n);
+}
+
+function esc(s) {
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function heatStyle(score) {
+    const pct = Math.min(100, score / 150);
+    const col = pct > 66 ? 'var(--jade)' : pct > 33 ? '#facc15' : 'var(--rose)';
+    return `width:${pct}%;background:${col}`;
+}
+
+// ── Skeleton Loaders ──────────────────────────────
+function showSkeletons(n = 6) {
+    document.getElementById('hero-wrap').innerHTML =
+        `<div class="skel skel-hero"></div>`;
+    document.getElementById('news-grid').innerHTML =
+        Array.from({ length: n }, () => `
+            <div class="skel-card">
+                <div class="skel skel-img"></div>
+                <div class="skel-body">
+                    <div class="skel skel-ln" style="width:38%"></div>
+                    <div class="skel skel-ln" style="width:92%;height:14px"></div>
+                    <div class="skel skel-ln" style="width:70%;height:14px"></div>
+                </div>
+            </div>`).join('');
+}
+
+// ── Render Hero ───────────────────────────────────
+function renderHero(post) {
+    const sc = scoreOf(post);
+    document.getElementById('hero-wrap').innerHTML = `
+        <div class="hero-card" data-id="${post.id}">
+            <img class="hero-img"
+                 src="${esc(getImg(post))}"
+                 alt=""
+                 onerror="this.src='${FALLBACK_IMGS[0]}'" />
+            <div class="hero-overlay"></div>
+            <div class="hero-body">
+                <div class="hero-meta">
+                    <span class="featured-pill"><span class="live-dot"></span>FEATURED</span>
+                    <span class="hero-sub">r/${esc(post.subreddit)} · ${timeAgo(post.created_utc)}</span>
+                </div>
+                <div class="hero-title">${esc(post.title)}</div>
+                <div class="hero-stats">
+                    <span class="hero-stat">▲ ${fmt(post.score)} upvotes</span>
+                    <span class="hero-stat">💬 ${fmt(post.num_comments)} comments</span>
+                    <span class="hero-stat">👤 ${esc(post.author)}</span>
                 </div>
             </div>
+        </div>`;
 
-            <!-- Feature Widget 2: Hardware Index Table -->
-            <div class="widget">
-                <div class="widget-title">Hardware Market Monitor</div>
-                <table class="market-table">
-                    <thead>
-                        <tr>
-                            <th>Component</th>
-                            <th>Est. Price</th>
-                            <th>Trend</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>RTX 5070 Ti OEM</td><td>DA 92,000</td><td class="trend-down">-4.2%</td></tr>
-                        <tr><td>RX 8800 XT Edition</td><td>DA 78,500</td><td class="trend-up">+1.8%</td></tr>
-                        <tr><td>Ryzen 7 9800X3D</td><td>DA 54,000</td><td class="trend-up">+12.4%</td></tr>
-                        <tr><td>Gen5 NVMe SSD 2TB</td><td>DA 24,500</td><td class="trend-down">-2.1%</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </aside>
+    document.getElementById('hero-wrap').querySelector('.hero-card')
+        .addEventListener('click', () => window.open('https://reddit.com' + post.permalink, '_blank'));
+}
 
-    </div>
-
-    <script>
-        // Massive High-Density Internal Database Mapping Real Industry Content
-        const megaNewsDatabase = {
-            all: [
-                { title: "GTA 6 Performance Leak Points to 60FPS Optimization Targets", tag: "TRENDING", score: 98, desc: "Internal developer build logs suggest Rockstar is prioritizing intense target scaling options across mid-generation console hardware revisions.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" },
-                { title: "Next-Gen Console Spec Rumors Heat Up Amid Studio Briefings", tag: "HARDWARE", score: 87, desc: "Major developers are reportedly receiving early hardware guidelines, hinting at dedicated AI neural processing architectures for physics engines.", link: "#", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=500" },
-                { title: "Open-World RPG Studio Faces Mass Backlash Over Massive Patch", tag: "COMMUNITY", score: 64, desc: "The latest patch has completely broken build balancing, leaving community forums in an absolute state of chaos over hidden stat nerfs.", link: "#", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=500" },
-                { title: "Classic Extraction Shooter Announces Surprise Franchise Revamp", tag: "ANNOUNCEMENT", score: 91, desc: "A brand new standalone engine update is coming next winter, bringing complete cross-progression frameworks and competitive netcode fixes.", link: "#", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500" },
-                { title: "Cyberpunk Sub-Genre Indie Hits 2 Million Sales Milestones", tag: "INDIE FOCUS", score: 94, desc: "The pixel-art isometric detective game built by a core team of three developers breaks steam charts records during weekend sales events.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" },
-                { title: "Anti-Cheat Kernel Driver Conflict Triggers Blue Screen Reports", tag: "TECH ALERT", score: 52, desc: "A faulty authentication patch deployed early this morning has rendered thousands of competitive tournament systems temporarily unbootable.", link: "#", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=500" }
-            ],
-            pc: [
-                { title: "Steam Deck 2 Launch Strategy Shift Stirs Handheld Market", tag: "PC GAMING", score: 92, desc: "Supply chain updates suggest an optimized custom APU refinement designed to handle ultra-high asset rendering architectures efficiently.", link: "#", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=500" },
-                { title: "Ray Tracing Mod Completely Transforms Classic 2010 Action Title", tag: "MODDING", score: 89, desc: "Community creators have released a full global illumination override injection script, achieving incredible hyper-realistic shadow layers.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" },
-                { title: "Ultra-Wide Monitor Firmwares Fix Desktop Stuttering Anomaly", tag: "HARDWARE", score: 81, desc: "Display engineering groups patch high-refresh flickering issues reported over DisplayPort channels on premium curved tracking configurations.", link: "#", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500" }
-            ],
-            playstation: [
-                { title: "Sony Secretly Testing Full Native Retro Compatibility Layer", tag: "PLAYSTATION", score: 95, desc: "Patent filings reveal an advanced software emulation technique engineered to render old optical disc formats up to clean 4K visuals.", link: "#", img: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=500" },
-                { title: "Exclusive First-Party Title Delayed for Critical Polish Phase", tag: "PS5", score: 78, desc: "The studio lead confirmed that extra development cycles are being used to completely eliminate loading asset pops and frame dips.", link: "#", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=500" }
-            ],
-            xbox: [
-                { title: "Xbox Game Pass Cloud Integration Getting Massive Latency Fix", tag: "XBOX", score: 86, desc: "A major update to edge server installations will roll out next month, aiming to reduce controller response gaps by over forty percent.", link: "#", img: "https://images.unsplash.com/photo-1621259182978-f09e5e2b091d?q=80&w=500" },
-                { title: "Beloved Strategic Xbox Classic Teases Unreal Engine 5 Remake", tag: "RUMOR", score: 90, desc: "A brief soundscape asset leak on official developer test channels indicates full pre-production scaling loops are currently fully underway.", link: "#", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500" }
-            ],
-            reviews: [
-                { title: "Aether Chronicles Overdrive Review: The Masterpiece We Needed", tag: "REVIEW", score: 97, desc: "Boasting unparalleled design frameworks and flawless structural pacing, this sprawling sci-fi journey redefines narrative execution.", link: "#", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=500" },
-                { title: "Mecha Strike Frontier: Fun Mechanics Held Back by Cash Shops", tag: "REVIEW", score: 68, desc: "While the engine flight physics feel unbelievably fluid, aggressive battle pass roadmaps constantly pull you out of the action.", link: "#", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=500" },
-                { title: "Gridiron Tactical 2026: A Lazy Annual Copy-Paste Roster Update", tag: "REVIEW", score: 45, desc: "Zero adjustments to systemic AI scripts or ongoing franchise mode bugs make this an incredibly frustrating recommendation at full price.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" }
-            ],
-            drama: [
-                { title: "Prominent Esports Organization Abruptly Drops Top Star Roster", tag: "DRAMA", score: 72, desc: "Leaked internal chat records confirm salary structure disagreements led to a sudden mutual contract termination overnight.", link: "#", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" },
-                { title: "Publishing Giant Accused of Using AI Voice Emulation Covertly", tag: "SCANDAL", score: 58, desc: "Voice actors guilds are launching an official inquiry into unexpected background character files found inside recent title patches.", link: "#", img: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=500" }
-            ]
-        };
-
-        const staticCalendarData = [
-            { name: "Starfield: Shattered Space", platform: "PC/Xbox", date: "SEP 30" },
-            { name: "Silent Hill 2 Remake", platform: "PS5/PC", date: "OCT 08" },
-            { name: "Call of Duty: Black Ops 6", platform: "Multi", date: "OCT 25" },
-            { name: "Dragon Age: The Veilguard", platform: "Multi", date: "OCT 31" },
-            { name: "Stalker 2: Heart of Chornobyl", platform: "PC/Xbox", date: "NOV 20" }
-        ];
-
-        const tickerHeadlines = [
-            "Nintendo Switch 2 manufacturing data confirms dual-screen ventilation architecture...",
-            "Discord testing native desktop overlay game capture frameworks up to 120 FPS...",
-            "Major MMO publisher rolls back progression patch following community market collapse...",
-            "PlayStation Plus lineup leaks early; includes massive action-adventure titles next month..."
-        ];
-
-        let chosenChannel = 'all';
-
-        // Listen for filter navigation tab switches
-        document.getElementById('tab-bar').addEventListener('click', (e) => {
-            if (e.target.classList.contains('tab-btn') && !e.target.classList.contains('active')) {
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                e.target.classList.add('active');
-                
-                chosenChannel = e.target.getAttribute('data-channel');
-                renderActiveLayout();
-            }
-        });
-
-        function renderActiveLayout() {
-            const gridContainer = document.getElementById('news-feed');
-            gridContainer.innerHTML = '';
-            
-            const records = megaNewsDatabase[chosenChannel] || megaNewsDatabase['all'];
-
-            records.forEach((item) => {
-                // Style selection color for score badging
-                const scoreClass = item.score >= 75 ? 'score-good' : 'score-avg';
-
-                gridContainer.innerHTML += `
-                    <article class="news-card">
-                        <div class="card-img-wrapper">
-                            <div class="review-score ${scoreClass}">${item.score}</div>
-                            <img class="card-img" src="${item.img}" alt="Media Resource Block">
+// ── Render Card Grid ──────────────────────────────
+function renderCards(posts) {
+    const grid = document.getElementById('news-grid');
+    if (!posts.length) {
+        grid.innerHTML = `
+            <div class="empty-state">
+                <div class="es-icon">🎮</div>
+                <div class="es-title">Nothing here yet</div>
+                <div class="es-sub">Try a different tab or search term</div>
+            </div>`;
+        return;
+    }
+    grid.innerHTML = posts.map(post => {
+        const sc = scoreOf(post);
+        const saved = savedPosts.has(post.id);
+        const flair = post.link_flair_text || post.subreddit;
+        return `
+            <article class="news-card" data-id="${post.id}">
+                <div class="card-img-wrap">
+                    <img class="card-img"
+                         src="${esc(getImg(post))}"
+                         alt=""
+                         loading="lazy"
+                         onerror="this.src='${FALLBACK_IMGS[0]}'" />
+                    <span class="score-badge ${sc.cls}">${sc.val}</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-tag">r/${esc(post.subreddit)} // ${esc(flair)}</div>
+                    <div class="card-title">${esc(post.title)}</div>
+                    <div class="heat-bar"><div class="heat-fill" style="${heatStyle(post.score)}"></div></div>
+                    <div class="card-footer">
+                        <div class="card-stats">
+                            <span>▲ ${fmt(post.score)}</span>
+                            <span>💬 ${fmt(post.num_comments)}</span>
+                            <span>${timeAgo(post.created_utc)}</span>
                         </div>
-                        <div class="card-body">
-                            <span class="card-tag">${item.tag} // NEWS</span>
-                            <h3 class="card-title">${item.title}</h3>
-                            <p class="card-desc">${item.desc}</p>
-                            <a href="${item.link}" class="card-btn">Inspect Protocol</a>
-                        </div>
-                    </article>
-                `;
-            });
-        }
-
-        function populateStaticWidgets() {
-            const calContainer = document.getElementById('calendar-feed');
-            calContainer.innerHTML = '';
-            
-            staticCalendarData.forEach(item => {
-                calContainer.innerHTML += `
-                    <div class="calendar-item">
-                        <div>
-                            <div class="cal-name">${item.name}</div>
-                            <div class="cal-platform">${item.platform}</div>
-                        </div>
-                        <div class="cal-date">${item.date}</div>
+                        <button class="bm-btn ${saved ? 'saved' : ''}" data-id="${post.id}" title="${saved ? 'Remove bookmark' : 'Save'}">
+                            ${saved ? '★' : '☆'}
+                        </button>
                     </div>
-                `;
-            });
+                </div>
+            </article>`;
+    }).join('');
 
-            // Start rotating breaking news ticker line automatically every few seconds
-            let currentTickerIdx = 0;
-            setInterval(() => {
-                currentTickerIdx = (currentTickerIdx + 1) % tickerHeadlines.length;
-                document.getElementById('system-ticker').innerText = tickerHeadlines[currentTickerIdx];
-            }, 6000);
+    document.getElementById('post-count').textContent = posts.length + ' posts';
+}
+
+// ── Event Delegation ──────────────────────────────
+document.getElementById('news-grid').addEventListener('click', e => {
+    // Bookmark button
+    const bmBtn = e.target.closest('.bm-btn');
+    if (bmBtn) {
+        e.stopPropagation();
+        const id = bmBtn.dataset.id;
+        if (savedPosts.has(id)) {
+            savedPosts.delete(id);
+            bmBtn.textContent = '☆';
+            bmBtn.classList.remove('saved');
+        } else {
+            savedPosts.add(id);
+            bmBtn.textContent = '★';
+            bmBtn.classList.add('saved');
         }
+        return;
+    }
+    // Card click → open Reddit
+    const card = e.target.closest('.news-card');
+    if (card) {
+        const post = postCache.get(card.dataset.id);
+        if (post) window.open('https://reddit.com' + post.permalink, '_blank');
+    }
+});
 
-        // Boot core components on page load
-        renderActiveLayout();
-        populateStaticWidgets();
-    </script>
+// ── Main Load ─────────────────────────────────────
+async function loadFeed(sub, sort) {
+    if (sub === '__bookmarks__') { renderBookmarks(); return; }
+
+    showSkeletons();
+    document.getElementById('error-banner').style.display = 'none';
+
+    try {
+        const posts = await fetchReddit(sub, sort);
+        const clean = posts.filter(p => !p.over_18 && !p.stickied);
+
+        clean.forEach(p => postCache.set(p.id, p));
+
+        if (clean.length > 0) {
+            renderHero(clean[0]);
+            renderCards(clean.slice(1));
+        } else {
+            renderCards([]);
+        }
+    } catch (err) {
+        console.error(err);
+        document.getElementById('error-banner').style.display = 'block';
+        useFallback();
+    }
+}
+
+function renderBookmarks() {
+    document.getElementById('hero-wrap').innerHTML = '';
+    document.getElementById('section-title').innerHTML = 'Saved <em>Posts</em>';
+    document.getElementById('post-count').textContent = '';
+    const saved = Array.from(savedPosts).map(id => postCache.get(id)).filter(Boolean);
+    renderCards(saved);
+}
+
+function useFallback() {
+    const fb = FALLBACK_DATA;
+    fb.forEach(p => postCache.set(p.id, p));
+    renderHero(fb[0]);
+    renderCards(fb.slice(1));
+}
+
+// ── Tab Nav ───────────────────────────────────────
+document.getElementById('tab-bar').addEventListener('click', e => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeSub  = btn.dataset.sub;
+    activeSort = btn.dataset.sort;
+    document.getElementById('search-input').value = '';
+    document.getElementById('section-title').innerHTML = 'Latest <em>Drops</em>';
+    loadFeed(activeSub, activeSort);
+});
+
+// ── Search ────────────────────────────────────────
+let searchTimer;
+document.getElementById('search-input').addEventListener('input', e => {
+    clearTimeout(searchTimer);
+    const q = e.target.value.trim();
+    if (!q) { loadFeed(activeSub, activeSort); return; }
+    searchTimer = setTimeout(async () => {
+        document.getElementById('hero-wrap').innerHTML = '';
+        document.getElementById('section-title').innerHTML = `Search <em>"${esc(q)}"</em>`;
+        showSkeletons(4);
+        try {
+            const posts = await searchReddit(q);
+            const clean = posts.filter(p => !p.over_18);
+            clean.forEach(p => postCache.set(p.id, p));
+            renderCards(clean);
+        } catch (err) {
+            document.getElementById('error-banner').style.display = 'block';
+        }
+    }, 550);
+});
+
+// ── Ticker ────────────────────────────────────────
+const tickerLines = [
+    '<b>Nintendo Switch 2</b> manufacturing data confirms dual-screen ventilation architecture…',
+    '<b>Discord</b> testing native desktop overlay game capture up to 120 FPS…',
+    '<b>Major MMO publisher</b> rolls back progression patch following community market collapse…',
+    '<b>PlayStation Plus</b> lineup leaks early — includes massive action-adventure title next month…',
+    '<b>Valve</b> files patent for next-gen Steam Deck with OLED and upgraded APU architecture…',
+];
+let tickerIdx = 0;
+document.getElementById('ticker-text').innerHTML = tickerLines[0];
+setInterval(() => {
+    tickerIdx = (tickerIdx + 1) % tickerLines.length;
+    document.getElementById('ticker-text').innerHTML = tickerLines[tickerIdx];
+}, 6200);
+
+// ── Calendar ──────────────────────────────────────
+const calData = [
+    { name: 'Starfield: Shattered Space', plat: 'PC / Xbox',  mo: 'SEP', dy: '30' },
+    { name: 'Silent Hill 2 Remake',       plat: 'PS5 / PC',   mo: 'OCT', dy: '08' },
+    { name: 'Call of Duty: Black Ops 6',  plat: 'Multi',      mo: 'OCT', dy: '25' },
+    { name: 'Dragon Age: The Veilguard',  plat: 'Multi',      mo: 'OCT', dy: '31' },
+    { name: 'Stalker 2: Heart of Chornobyl', plat: 'PC / Xbox', mo: 'NOV', dy: '20' },
+];
+document.getElementById('cal-feed').innerHTML = calData.map(c => `
+    <div class="cal-item">
+        <div class="cal-badge">
+            <div class="cal-mo">${c.mo}</div>
+            <div class="cal-dy">${c.dy}</div>
+        </div>
+        <div>
+            <div class="cal-name">${c.name}</div>
+            <div class="cal-plat">${c.plat}</div>
+        </div>
+    </div>`).join('');
+
+// ── AI Advisor ────────────────────────────────────
+document.getElementById('ai-chips').addEventListener('click', e => {
+    const chip = e.target.closest('.ai-chip');
+    if (chip) { document.getElementById('ai-input').value = chip.textContent; sendAI(); }
+});
+
+document.getElementById('ai-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendAI();
+});
+document.getElementById('ai-send').addEventListener('click', sendAI);
+
+async function sendAI() {
+    const input  = document.getElementById('ai-input');
+    const sendBtn = document.getElementById('ai-send');
+    const log    = document.getElementById('ai-log');
+    const msg    = input.value.trim();
+    if (!msg) return;
+
+    input.value  = '';
+    sendBtn.disabled = true;
+
+    log.innerHTML += `<div class="ai-msg u">${esc(msg)}</div>`;
+
+    const typingId = 'td-' + Date.now();
+    log.innerHTML += `
+        <div class="ai-msg a" id="${typingId}">
+            <div class="typing-dots">
+                <div class="td"></div><div class="td"></div><div class="td"></div>
+            </div>
+        </div>`;
+    log.scrollTop = log.scrollHeight;
+
+    try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 1000,
+                system: 'You are NEXUS AI, an expert gaming advisor on a gaming news hub. Give concise, enthusiastic answers. Actionable recommendations, no waffle. Under 130 words. No markdown headers.',
+                messages: [{ role: 'user', content: msg }]
+            })
+        });
+        const data   = await res.json();
+        const reply  = data.content?.[0]?.text || 'No response received.';
+        document.getElementById(typingId)?.remove();
+        log.innerHTML += `<div class="ai-msg a">${esc(reply)}</div>`;
+    } catch (err) {
+        document.getElementById(typingId)?.remove();
+        log.innerHTML += `<div class="ai-msg a">⚠ Connection error — try again.</div>`;
+    }
+
+    sendBtn.disabled = false;
+    log.scrollTop = log.scrollHeight;
+}
+
+// ── Fallback Static Data ──────────────────────────
+const now = Date.now() / 1000;
+const FALLBACK_DATA = [
+    { id:'f1', title:'GTA 6 Performance Leak Points to 60FPS Optimization Targets',        subreddit:'gaming',    score:15420, num_comments:843, author:'rockstar_leaks',   created_utc: now-3600,  permalink:'#', link_flair_text:'TRENDING',    preview:null, thumbnail: FALLBACK_IMGS[0] },
+    { id:'f2', title:'Next-Gen Console Spec Rumors Heat Up Amid Studio Briefings',         subreddit:'gaming',    score:8231,  num_comments:412, author:'hardware_hunter',  created_utc: now-7200,  permalink:'#', link_flair_text:'HARDWARE',    preview:null, thumbnail: FALLBACK_IMGS[1] },
+    { id:'f3', title:'Open-World RPG Studio Faces Mass Backlash Over Surprise Patch',       subreddit:'gaming',    score:5100,  num_comments:1204,author:'community_watch',  created_utc: now-10800, permalink:'#', link_flair_text:'COMMUNITY',   preview:null, thumbnail: FALLBACK_IMGS[2] },
+    { id:'f4', title:'Classic Extraction Shooter Announces Surprise Franchise Revamp',     subreddit:'gaming',    score:9800,  num_comments:567, author:'fps_tracker',      created_utc: now-14400, permalink:'#', link_flair_text:'ANNOUNCEMENT',preview:null, thumbnail: FALLBACK_IMGS[3] },
+    { id:'f5', title:'Cyberpunk Indie Title Crosses 2 Million Sales During Steam Festival',subreddit:'pcgaming',  score:12300, num_comments:289, author:'indie_spotlight',  created_utc: now-18000, permalink:'#', link_flair_text:'INDIE FOCUS', preview:null, thumbnail: FALLBACK_IMGS[4] },
+    { id:'f6', title:'Anti-Cheat Kernel Driver Conflict Triggers Blue Screen Reports',     subreddit:'gaming',    score:3200,  num_comments:892, author:'tech_alert',       created_utc: now-21600, permalink:'#', link_flair_text:'TECH ALERT',  preview:null, thumbnail: FALLBACK_IMGS[0] },
+];
+
+// ── Boot ──────────────────────────────────────────
+loadFeed('gaming', 'hot');
+</script>
 </body>
 </html>
